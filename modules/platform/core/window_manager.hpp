@@ -8,7 +8,7 @@ namespace core
     {
     public:
         auto init(const configuration::window& window_config) -> void;
-        auto release()                                        -> void;
+        auto release()  const                                 -> void;
 
         [[nodiscard]] auto window()        const -> base::Window&;
         [[nodiscard]] auto window_events() const -> base::WindowEvents&;

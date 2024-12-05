@@ -6,7 +6,7 @@ namespace core
     {
     }
 
-    auto WindowManager::release() -> void
+    auto WindowManager::release() const -> void
     {
     }
 
