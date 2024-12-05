@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma region stadard
+
 #include <functional>
 
 #include <memory>
@@ -7,7 +9,9 @@
 
 #include <any>
 
-#pragma region headers
+#pragma endregion
+
+#pragma region internal
 
 #include "configuration/window.hpp"
 
