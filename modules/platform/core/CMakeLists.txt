@@ -1,4 +1,4 @@
 #=======================================================================================================================
-target_include_directories(platform INTERFACE ..)
- target_precompile_headers(platform INTERFACE headers.hpp)
+target_include_directories(${PROJECT_NAME} INTERFACE ..)
+ target_precompile_headers(${PROJECT_NAME} INTERFACE headers.hpp)
 #=======================================================================================================================
