@@ -10,7 +10,7 @@ namespace core::configuration
         static constexpr auto default_title { "Game Engine" };
 
         std::string title   { default_title };
-        uint32_t    flags   { window_mode | window_centered };
         window_size size    { };
+        uint32_t    flags   { window_mode | window_centered };
     };
 }
