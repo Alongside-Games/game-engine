@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/window_flags.hpp"
+#include "core/window_flag.hpp"
 #include "core/window_size.hpp"
 
 namespace core::configuration
