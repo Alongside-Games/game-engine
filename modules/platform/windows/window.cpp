@@ -7,6 +7,8 @@ namespace windows
     {
         #pragma region preparation
 
+        #pragma region monitor
+
         MONITORINFO monitor_info
         {
             .cbSize = sizeof(MONITORINFO)
@@ -19,11 +21,27 @@ namespace windows
         auto frame_w = monitor_info.rcMonitor.right  - monitor_info.rcMonitor.left;
         auto frame_h = monitor_info.rcMonitor.bottom - monitor_info.rcMonitor.top;
 
-        register_id(config.title);
+        #pragma endregion
+        #pragma region instance and id
 
+        instance = GetModuleHandle(nullptr);
+
+        const WNDCLASSEX classex
+        {
+            .cbSize        = sizeof(WNDCLASSEX),
+            .style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
+            .lpfnWndProc   = WindowEvents::update,
+            .hInstance     = instance,
+            .hCursor       = LoadCursor(nullptr, IDC_ARROW),
+            .lpszClassName = config.title.c_str()
+        };
+
+        id = RegisterClassEx(&classex);
+
+        #pragma endregion
         #pragma region style
 
-        styles |= config.flag & core::window_mode ? WS_OVERLAPPEDWINDOW : WS_POPUP;
+        style |= config.flag & core::window_mode ? WS_OVERLAPPEDWINDOW : WS_POPUP;
 
         #pragma endregion
         #pragma region position and size
@@ -36,36 +54,34 @@ namespace windows
                 .bottom = config.size.height()
             };
 
-            AdjustWindowRectEx(&window_frame, styles, false, extras);
+            AdjustWindowRectEx(&window_frame, style, false, extra);
 
-            const auto window_w = window_frame.right  - window_frame.left;
-            const auto window_h = window_frame.bottom - window_frame.top;
+            frame_w = window_frame.right  - window_frame.left;
+            frame_h = window_frame.bottom - window_frame.top;
 
-            #pragma region align in the middle of the screen
+            #pragma region center of the screen
 
             if (config.flag & core::window_centered)
             {
-                frame_x = (frame_w - window_w) / 2;
-                frame_y = (frame_h - window_h) / 2;
+                frame_x = (monitor_info.rcMonitor.right  - monitor_info.rcMonitor.left - frame_w) / 2;
+                frame_y = (monitor_info.rcMonitor.bottom - monitor_info.rcMonitor.top  - frame_h) / 2;
             }
 
             #pragma endregion
-
-            frame_w = window_w;
-            frame_h = window_h;
         }
 
         #pragma endregion
+
         #pragma endregion
 
-        hwnd = CreateWindowEx(extras, MAKEINTATOM(id), config.title.c_str(), styles, frame_x, frame_y, frame_w, frame_h, nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
+        hwnd = CreateWindowEx(extra, MAKEINTATOM(id), config.title.c_str(), style, frame_x, frame_y, frame_w, frame_h, nullptr, nullptr, instance, nullptr);
     }
 
     auto Window::release() const -> void
     {
         DestroyWindow(hwnd);
 
-        unregister_id();
+        UnregisterClass(MAKEINTATOM(id), instance);
     }
 
     auto Window::show() const -> void
@@ -76,25 +92,5 @@ namespace windows
     auto Window::handle() const -> std::any
     {
         return hwnd;
-    }
-
-    auto Window::register_id(const std::string& title) -> void
-    {
-        const WNDCLASSEX classex
-        {
-            .cbSize        = sizeof(WNDCLASSEX),
-            .style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
-            .lpfnWndProc   = WindowEvents::update,
-            .hInstance     = GetModuleHandle(nullptr),
-            .hCursor       = LoadCursor(nullptr, IDC_ARROW),
-            .lpszClassName = title.c_str()
-        };
-
-        id = RegisterClassEx(&classex);
-    }
-
-    auto Window::unregister_id() const -> void
-    {
-        UnregisterClass(MAKEINTATOM(id), GetModuleHandle(nullptr));
     }
 }

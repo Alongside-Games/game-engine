@@ -14,13 +14,11 @@ namespace windows
         [[nodiscard]]   auto handle() const -> std::any override;
 
     private:
-        auto   register_id(const std::string& title) -> void;
-        auto unregister_id()                   const -> void;
+        uint32_t style { WS_CLIPSIBLINGS | WS_CLIPCHILDREN };
+        uint32_t extra { WS_EX_APPWINDOW };
 
-        uint32_t styles { WS_CLIPSIBLINGS | WS_CLIPCHILDREN };
-        uint32_t extras { WS_EX_APPWINDOW };
-
-        ATOM   id { };
-        HWND hwnd { };
+        HINSTANCE instance { };
+        HWND      hwnd { };
+        ATOM      id   { };
     };
 }
