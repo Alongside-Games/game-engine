@@ -11,6 +11,6 @@ namespace core::configuration
 
         std::string title   { default_title };
         window_size size    { };
-        uint32_t    flags   { window_mode | window_centered };
+        uint32_t    flag    { window_mode | window_centered };
     };
 }

@@ -7,11 +7,58 @@ namespace windows
     {
         #pragma region preparation
 
+        MONITORINFO monitor_info
+        {
+            .cbSize = sizeof(MONITORINFO)
+        };
+
+        GetMonitorInfo(MonitorFromWindow(hwnd, MONITOR_DEFAULTTOPRIMARY), &monitor_info);
+
+        auto frame_x = 0;
+        auto frame_y = 0;
+        auto frame_w = monitor_info.rcMonitor.right  - monitor_info.rcMonitor.left;
+        auto frame_h = monitor_info.rcMonitor.bottom - monitor_info.rcMonitor.top;
+
         register_id(config.title);
 
+        #pragma region style
+
+        styles |= config.flag & core::window_mode ? WS_OVERLAPPEDWINDOW : WS_POPUP;
+
+        #pragma endregion
+        #pragma region position and size
+
+        if (config.flag & core::window_mode)
+        {
+            RECT window_frame
+            {
+                .right  = config.size.width(),
+                .bottom = config.size.height()
+            };
+
+            AdjustWindowRectEx(&window_frame, styles, false, extras);
+
+            const auto window_w = window_frame.right  - window_frame.left;
+            const auto window_h = window_frame.bottom - window_frame.top;
+
+            #pragma region align in the middle of the screen
+
+            if (config.flag & core::window_centered)
+            {
+                frame_x = (frame_w - window_w) / 2;
+                frame_y = (frame_h - window_h) / 2;
+            }
+
+            #pragma endregion
+
+            frame_w = window_w;
+            frame_h = window_h;
+        }
+
+        #pragma endregion
         #pragma endregion
 
-        hwnd = CreateWindowEx(extras, MAKEINTATOM(id), config.title.c_str(), styles, 0, 0, config.size.width(), config.size.height(), nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
+        hwnd = CreateWindowEx(extras, MAKEINTATOM(id), config.title.c_str(), styles, frame_x, frame_y, frame_w, frame_h, nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
     }
 
     auto Window::release() const -> void
