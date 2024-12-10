@@ -3,7 +3,7 @@
 
 namespace windows
 {
-    auto Window::create(const core::configuration::window& config) -> void
+    auto Window::init(const core::configuration::window& config) -> void
     {
         #pragma region preparation
 
@@ -14,7 +14,7 @@ namespace windows
         hwnd = CreateWindowEx(extras, MAKEINTATOM(id), config.title.c_str(), styles, 0, 0, config.size.width(), config.size.height(), nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
     }
 
-    auto Window::destroy() const -> void
+    auto Window::release() const -> void
     {
         DestroyWindow(hwnd);
 

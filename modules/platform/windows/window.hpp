@@ -7,9 +7,9 @@ namespace windows
     class Window final : public core::base::Window
     {
     public:
-        auto  create(const core::configuration::window& config) -> void override;
-        auto  destroy()    const                                -> void override;
-        auto  show()       const                                -> void override;
+        auto  init(const core::configuration::window& config) -> void override;
+        auto  release()  const                                -> void override;
+        auto  show()     const                                -> void override;
 
         [[nodiscard]] auto handle() const -> std::any override;
 

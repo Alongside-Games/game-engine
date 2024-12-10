@@ -5,17 +5,17 @@ namespace core
 {
     auto WindowManager::init(const configuration::window& window_config) -> void
     {
-        const auto factory = Platform::create_factory();
+         const auto factory = Platform::create_factory();
 
         _window        = factory->create_window();
         _window_events = factory->create_window_events();
 
-        _window->create(window_config);
+        _window->init(window_config);
     }
 
     auto WindowManager::release() const -> void
     {
-        _window->destroy();
+        _window->release();
     }
 
     auto WindowManager::window() const -> base::Window&
