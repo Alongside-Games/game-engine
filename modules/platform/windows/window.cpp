@@ -7,6 +7,8 @@ namespace windows
     {
         #pragma region preparation
 
+        const auto title = config.title.c_str();
+
         #pragma region monitor
 
         MONITORINFO monitor_info
@@ -33,7 +35,7 @@ namespace windows
             .lpfnWndProc   = WindowEvents::update,
             .hInstance     = instance,
             .hCursor       = LoadCursor(nullptr, IDC_ARROW),
-            .lpszClassName = config.title.c_str()
+            .lpszClassName = title
         };
 
         id = RegisterClassEx(&classex);
@@ -74,7 +76,7 @@ namespace windows
 
         #pragma endregion
 
-        hwnd = CreateWindowEx(extra, MAKEINTATOM(id), config.title.c_str(), style, frame_x, frame_y, frame_w, frame_h, nullptr, nullptr, instance, nullptr);
+        hwnd = CreateWindowEx(extra, MAKEINTATOM(id), title, style, frame_x, frame_y, frame_w, frame_h, nullptr, nullptr, instance, nullptr);
     }
 
     auto Window::release() const -> void
