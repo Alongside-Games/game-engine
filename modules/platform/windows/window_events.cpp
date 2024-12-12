@@ -24,10 +24,6 @@ namespace windows
                 return 0;
             }
             #pragma region default
-            case WM_ERASEBKGND:
-            {
-                return 1;
-            }
             case WM_SYSCOMMAND:
             {
                 switch (wparam)
@@ -39,6 +35,10 @@ namespace windows
                     }
                     default: break;
                 }
+            }
+            case WM_ERASEBKGND:
+            {
+                return 1;
             }
             default: return DefWindowProc(hwnd, msg, wparam, lparam);
             #pragma  endregion
