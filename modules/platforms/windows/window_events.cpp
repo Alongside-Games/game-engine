@@ -6,7 +6,11 @@ namespace windows
 {
     auto WindowEvents::update(const HWND hwnd, const uint32_t msg, const WPARAM wparam, const LPARAM lparam) -> LRESULT
     {
+        #pragma region references
+
         const auto& window_manager = core::WindowManager::instance();
+
+        #pragma endregion
 
         switch (msg)
         {
