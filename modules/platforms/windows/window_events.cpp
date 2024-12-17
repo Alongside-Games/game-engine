@@ -6,11 +6,13 @@ namespace windows
 {
     auto WindowEvents::update(const HWND hwnd, const uint32_t msg, const WPARAM wparam, const LPARAM lparam) -> LRESULT
     {
+        const auto& window_manager = core::WindowManager::instance();
+
         switch (msg)
         {
             case WM_CLOSE:
             {
-                core::WindowManager::instance().window_events().on_close();
+                window_manager.window_events().on_close();
                 return 0;
             }
             case WM_SIZE:
@@ -18,8 +20,8 @@ namespace windows
                 const auto width  = LOWORD(lparam);
                 const auto height = HIWORD(lparam);
 
-                if (core::WindowManager::instance().window_events().on_size)
-                    core::WindowManager::instance().window_events().on_size(width, height);
+                if (window_manager.window_events().on_size)
+                    window_manager.window_events().on_size(width, height);
 
                 return 0;
             }
