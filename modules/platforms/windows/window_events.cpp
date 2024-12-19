@@ -16,7 +16,7 @@ namespace windows
         {
             case WM_CLOSE:
             {
-                window_manager.window_events().on_close();
+                window_manager.events().on_close();
                 return 0;
             }
             case WM_SIZE:
@@ -24,8 +24,8 @@ namespace windows
                 const auto width  = LOWORD(lparam);
                 const auto height = HIWORD(lparam);
 
-                if (window_manager.window_events().on_size)
-                    window_manager.window_events().on_size(width, height);
+                if (window_manager.events().on_size)
+                    window_manager.events().on_size(width, height);
 
                 return 0;
             }

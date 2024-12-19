@@ -10,14 +10,14 @@ namespace core
         auto init(const configuration::window& window_config) -> void;
         auto release()  const                                 -> void;
 
-        [[nodiscard]] auto window()        const -> base::Window&;
-        [[nodiscard]] auto window_events() const -> base::WindowEvents&;
+        [[nodiscard]] auto window() const -> base::Window&;
+        [[nodiscard]] auto events() const -> base::WindowEvents&;
 
         static auto instance() -> WindowManager&;
 
     private:
         std::unique_ptr<base::Window>       _window;
-        std::unique_ptr<base::WindowEvents> _window_events;
+        std::unique_ptr<base::WindowEvents> _events;
 
         WindowManager() = default;
     };

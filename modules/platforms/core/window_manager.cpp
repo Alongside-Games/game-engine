@@ -7,8 +7,8 @@ namespace core
     {
          const auto factory = Platform::create_factory();
 
-        _window        = factory->create_window();
-        _window_events = factory->create_window_events();
+        _window = factory->create_window();
+        _events = factory->create_window_events();
 
         _window->init(window_config);
     }
@@ -23,9 +23,9 @@ namespace core
         return *_window;
     }
 
-    auto WindowManager::window_events() const -> base::WindowEvents&
+    auto WindowManager::events() const -> base::WindowEvents&
     {
-        return *_window_events;
+        return *_events;
     }
 
     auto WindowManager::instance() -> WindowManager&
