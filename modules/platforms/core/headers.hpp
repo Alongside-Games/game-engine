@@ -13,6 +13,6 @@
 
 #pragma region internal
 
-#include "configuration/window.hpp"
+#include "configuration/platform.hpp"
 
 #pragma endregion
