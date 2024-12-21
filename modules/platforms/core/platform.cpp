@@ -16,7 +16,7 @@ namespace core
         const auto  window = factory->create_window();
         const auto context = factory->create_context();
 
-         window->init({ "context", { 0, 0 }, window_mode });
+         window->init({ "context", { 0, 0 } });
         context->init(window->handle());
     }
 
