@@ -7,6 +7,21 @@ namespace windows
     {
         #pragma region preparation
 
+        #pragma region monitor
+
+        MONITORINFO monitor_info
+        {
+            .cbSize = sizeof(MONITORINFO)
+        };
+
+        GetMonitorInfo(MonitorFromWindow(hwnd, MONITOR_DEFAULTTOPRIMARY), &monitor_info);
+
+        auto frame_x = 0;
+        auto frame_y = 0;
+        auto frame_w = monitor_info.rcMonitor.right  - monitor_info.rcMonitor.left;
+        auto frame_h = monitor_info.rcMonitor.bottom - monitor_info.rcMonitor.top;
+
+        #pragma endregion
         #pragma region instance and id
 
         instance = GetModuleHandle(nullptr);
@@ -22,21 +37,6 @@ namespace windows
         };
 
         id = RegisterClassEx(&classex);
-
-        #pragma endregion
-        #pragma region monitor
-
-        MONITORINFO monitor_info
-        {
-            .cbSize = sizeof(MONITORINFO)
-        };
-
-        GetMonitorInfo(MonitorFromWindow(hwnd, MONITOR_DEFAULTTOPRIMARY), &monitor_info);
-
-        auto frame_x = 0;
-        auto frame_y = 0;
-        auto frame_w = monitor_info.rcMonitor.right  - monitor_info.rcMonitor.left;
-        auto frame_h = monitor_info.rcMonitor.bottom - monitor_info.rcMonitor.top;
 
         #pragma endregion
         #pragma region position and size

@@ -20,6 +20,6 @@ namespace windows
         uint32_t  extra { WS_EX_APPWINDOW };
 
         HWND hwnd { };
-        ATOM id   { };
+        WORD   id { };
     };
 }
