@@ -63,7 +63,7 @@ namespace windows
             }
 
             TranslateMessage(&msg);
-            DispatchMessage(&msg);
+             DispatchMessage(&msg);
         }
     }
 }
