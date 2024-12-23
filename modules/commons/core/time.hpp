@@ -4,11 +4,10 @@ namespace core
 {
     #pragma region types
 
-    using seconds      = std::chrono::duration<float>;
-    using milliseconds = std::chrono::duration<float, std::milli>;
+    using seconds    = std::chrono::duration<float>;
 
-    using time_clock   = std::chrono::high_resolution_clock;
-    using time_point   = std::chrono::high_resolution_clock::time_point;
+    using time_clock = std::chrono::high_resolution_clock;
+    using time_point = std::chrono::high_resolution_clock::time_point;
 
     #pragma endregion
 
