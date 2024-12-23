@@ -4,13 +4,13 @@ namespace core
 {
     auto Time::init() -> void
     {
-           _start_time =  now_time();
+           _start_time =    now_time();
          _current_time = _start_time;
     }
 
     auto Time::update() -> void
     {
-        const auto current_time = now_time();
+         const auto current_time = now_time();
 
         _total_time = seconds(current_time -   _start_time).count();
         _delta_time = seconds(current_time - _current_time).count();
