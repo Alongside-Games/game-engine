@@ -7,8 +7,23 @@ namespace windows
     {
         #pragma region preparation
 
-        const auto title = config.title.c_str();
+        #pragma region instance and id
 
+        instance = GetModuleHandle(nullptr);
+
+        const WNDCLASSEX classex
+        {
+            .cbSize        = sizeof(WNDCLASSEX),
+            .style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
+            .lpfnWndProc   = WindowEvents::update,
+            .hInstance     = instance,
+            .hCursor       = LoadCursor(nullptr, IDC_ARROW),
+            .lpszClassName = config.title.c_str()
+        };
+
+        id = RegisterClassEx(&classex);
+
+        #pragma endregion
         #pragma region monitor
 
         MONITORINFO monitor_info
@@ -24,30 +39,9 @@ namespace windows
         auto frame_h = monitor_info.rcMonitor.bottom - monitor_info.rcMonitor.top;
 
         #pragma endregion
-        #pragma region instance and id
-
-        instance = GetModuleHandle(nullptr);
-
-        const WNDCLASSEX classex
-        {
-            .cbSize        = sizeof(WNDCLASSEX),
-            .style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
-            .lpfnWndProc   = WindowEvents::update,
-            .hInstance     = instance,
-            .hCursor       = LoadCursor(nullptr, IDC_ARROW),
-            .lpszClassName = title
-        };
-
-        id = RegisterClassEx(&classex);
-
-        #pragma endregion
-        #pragma region style
-
-        style |= config.flag & core::window_mode ? WS_OVERLAPPEDWINDOW : WS_POPUP;
-
-        #pragma endregion
         #pragma region position and size
 
+  style |=  config.flag & core::window_mode ? WS_OVERLAPPEDWINDOW : WS_POPUP;
         if (config.flag & core::window_mode)
         {
             RECT window_frame
@@ -76,7 +70,7 @@ namespace windows
 
         #pragma endregion
 
-        hwnd = CreateWindowEx(extra, MAKEINTATOM(id), title, style, frame_x, frame_y, frame_w, frame_h, nullptr, nullptr, instance, nullptr);
+        hwnd = CreateWindowEx(extra, MAKEINTATOM(id), config.title.c_str(), style, frame_x, frame_y, frame_w, frame_h, nullptr, nullptr, instance, nullptr);
     }
 
     auto Window::release() const -> void
