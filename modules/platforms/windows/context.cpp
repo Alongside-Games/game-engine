@@ -72,6 +72,11 @@ namespace windows
                 wglMakeCurrent(hdc, hrc);
     }
 
+    auto Context::sync(const int32_t interval) -> void
+    {
+        wglSwapInterval(interval);
+    }
+
     auto Context::release() -> void
     {
           wglMakeCurrent(hdc, nullptr);

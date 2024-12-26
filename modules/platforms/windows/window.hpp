@@ -9,9 +9,11 @@ namespace windows
     public:
         auto init(const core::configuration::window& config) -> void override;
         auto release()  const                                -> void override;
-        auto show()     const                                -> void override;
 
-        [[nodiscard]]   auto handle() const -> std::any override;
+        auto title(const std::string& title) -> void override;
+        auto show()      const               -> void override;
+
+        [[nodiscard]]    auto handle() const -> std::any override;
 
     private:
         HINSTANCE instance { };

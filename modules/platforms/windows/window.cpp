@@ -80,6 +80,11 @@ namespace windows
         UnregisterClass(MAKEINTATOM(id), instance);
     }
 
+    auto Window::title(const std::string& title) -> void
+    {
+        SetWindowText(hwnd, title.c_str());
+    }
+
     auto Window::show() const -> void
     {
         ShowWindow(hwnd, SW_SHOW);
