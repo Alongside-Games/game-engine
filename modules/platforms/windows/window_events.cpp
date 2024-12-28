@@ -8,7 +8,7 @@ namespace windows
     {
         #pragma region references
 
-        const auto& window_manager = core::WindowManager::instance();
+        const auto& window_events = core::WindowManager::instance().events();
 
         #pragma endregion
 
@@ -16,7 +16,7 @@ namespace windows
         {
             case WM_CLOSE:
             {
-                window_manager.events().on_close();
+                window_events.on_close();
                 return 0;
             }
             case WM_SIZE:
@@ -24,8 +24,8 @@ namespace windows
                 const auto width  = LOWORD(lparam);
                 const auto height = HIWORD(lparam);
 
-                if (window_manager.events().on_size)
-                    window_manager.events().on_size(width, height);
+                if (window_events.on_size)
+                    window_events.on_size(width, height);
 
                 return 0;
             }

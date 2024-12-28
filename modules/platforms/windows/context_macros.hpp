@@ -26,6 +26,6 @@ namespace windows
         constexpr auto profile       = 0x9126;
         constexpr auto flags         = 0x2094;
         constexpr auto core_profile  = 0x00000001;
-        constexpr auto no_error      = 0x00000008;
+        constexpr auto   no_error    = 0x00000008;
     }
 }
