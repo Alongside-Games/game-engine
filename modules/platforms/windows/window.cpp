@@ -24,7 +24,7 @@ namespace windows
         #pragma endregion
         #pragma region instance and id
 
-        instance = GetModuleHandle(nullptr);
+        const auto instance = GetModuleHandle(nullptr);
 
         const WNDCLASSEX classex
         {
@@ -77,7 +77,7 @@ namespace windows
     {
         DestroyWindow(hwnd);
 
-        UnregisterClass(MAKEINTATOM(id), instance);
+        UnregisterClass(MAKEINTATOM(id), GetModuleHandle(nullptr));
     }
 
     auto Window::title(const std::string& title) -> void

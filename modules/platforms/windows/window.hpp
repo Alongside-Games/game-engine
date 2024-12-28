@@ -16,8 +16,6 @@ namespace windows
         [[nodiscard]]    auto handle() const -> std::any override;
 
     private:
-        HINSTANCE instance { };
-
         uint32_t  style { WS_CLIPSIBLINGS | WS_CLIPCHILDREN };
         uint32_t  extra { WS_EX_APPWINDOW };
 
