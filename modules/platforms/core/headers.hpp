@@ -13,4 +13,6 @@
 
 #include "configuration/platform.hpp"
 
+#include "input/keys.hpp"
+
 #pragma endregion

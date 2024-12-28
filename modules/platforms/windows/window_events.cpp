@@ -1,5 +1,6 @@
 #include "window_events.hpp"
 
+#include "core/input_manager.hpp"
 #include "core/window_manager.hpp"
 
 namespace windows
@@ -8,7 +9,10 @@ namespace windows
     {
         #pragma region references
 
-        const auto& window_events = core::WindowManager::instance().events();
+        const auto& events = core::WindowManager::instance().events();
+
+              auto&  input = core::InputManager::instance().input();
+              auto& states = core::InputManager::instance().states();
 
         #pragma endregion
 
@@ -16,7 +20,7 @@ namespace windows
         {
             case WM_CLOSE:
             {
-                window_events.on_close();
+                events.on_close();
                 return 0;
             }
             case WM_SIZE:
@@ -24,10 +28,28 @@ namespace windows
                 const auto width  = LOWORD(lparam);
                 const auto height = HIWORD(lparam);
 
-                if (window_events.on_size)
-                    window_events.on_size(width, height);
+                if (events.on_size)
+                    events.on_size(width, height);
 
                 return 0;
+            }
+            case WM_KEYDOWN: // TODO merge this
+            case WM_SYSKEYDOWN:
+            {
+                if (input.codes.contains(wparam))
+                {
+                    states.update(input.codes[wparam], true);
+                }
+                break;
+            }
+            case WM_KEYUP:
+            case WM_SYSKEYUP:
+            {
+                if (input.codes.contains(wparam))
+                {
+                    states.update(input.codes[wparam], false);
+                }
+                break;
             }
             #pragma region default
             case WM_ERASEBKGND:
@@ -45,10 +67,13 @@ namespace windows
                     }
                     default: break;
                 }
+                break;
             }
-            default: return DefWindowProc(hwnd, msg, wparam, lparam);
+            default: break;
             #pragma  endregion
         }
+
+        return DefWindowProc(hwnd, msg, wparam, lparam);
     }
 
     auto WindowEvents::update() const -> void

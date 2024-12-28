@@ -6,6 +6,8 @@
 #include "window.hpp"
 #include "window_events.hpp"
 
+#include "input.hpp"
+
 namespace windows
 {
     auto Factory::create_context() -> std::unique_ptr<core::base::Context>
@@ -26,5 +28,10 @@ namespace windows
     auto Factory::create_window_events() -> std::unique_ptr<core::base::WindowEvents>
     {
         return std::make_unique<WindowEvents>();
+    }
+
+    auto Factory::create_input() -> std::unique_ptr<core::base::Input>
+    {
+        return std::make_unique<Input>();
     }
 }
