@@ -10,9 +10,7 @@ namespace windows
         #pragma region references
 
         const auto& events = core::WindowManager::instance().events();
-
-              auto&  input = core::InputManager::instance().input();
-              auto& states = core::InputManager::instance().states();
+        const auto&  input = core::InputManager::instance();
 
         #pragma endregion
 
@@ -33,24 +31,41 @@ namespace windows
 
                 return 0;
             }
-            case WM_KEYDOWN: // TODO merge this
+            case WM_KEYUP:
+            case WM_KEYDOWN:
+
+            case WM_SYSKEYUP:
             case WM_SYSKEYDOWN:
             {
-                if (input.codes.contains(wparam))
-                {
-                    states.update(input.codes[wparam], true);
-                }
+                const auto key   =        wparam;
+                const auto state = HIWORD(lparam) & KF_UP ? false : true;
+
+                input.update(key, state);
+
                 break;
             }
-            case WM_KEYUP:
-            case WM_SYSKEYUP:
+
+            case WM_LBUTTONUP:   { input.update(VK_LBUTTON, false); break; }
+            case WM_MBUTTONUP:   { input.update(VK_MBUTTON, false); break; }
+            case WM_RBUTTONUP:   { input.update(VK_RBUTTON, false); break; }
+
+            case WM_LBUTTONDOWN: { input.update(VK_LBUTTON,  true); break; }
+            case WM_MBUTTONDOWN: { input.update(VK_MBUTTON,  true); break; }
+            case WM_RBUTTONDOWN: { input.update(VK_RBUTTON,  true); break; }
+
+            case WM_MOUSEWHEEL:
             {
-                if (input.codes.contains(wparam))
-                {
-                    states.update(input.codes[wparam], false);
-                }
-                break;
+                const auto delta = GET_WHEEL_DELTA_WPARAM(wparam) / WHEEL_DELTA;
+
+                input.scroll(delta);
             }
+
+            case WM_MOUSEMOVE:
+            {
+                input.mouse().cursor_x = LOWORD(lparam);
+                input.mouse().cursor_y = HIWORD(lparam);
+            }
+
             #pragma region default
             case WM_ERASEBKGND:
             {

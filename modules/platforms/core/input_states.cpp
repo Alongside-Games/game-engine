@@ -24,7 +24,7 @@ namespace core
         _changes.clear();
     }
 
-    auto InputStates::update(input::keys key, const bool state) -> void
+    auto InputStates::update(int32_t key, const bool state) -> void
     {
         #pragma region references
 
@@ -45,7 +45,7 @@ namespace core
         }
     }
 
-    auto InputStates::pressed(const input::keys key) -> bool
+    auto InputStates::pressed(const int32_t key) -> bool
     {
         return _current[key];
     }
