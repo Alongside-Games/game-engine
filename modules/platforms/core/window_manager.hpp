@@ -7,8 +7,8 @@ namespace core
     class WindowManager
     {
     public:
-        auto init(const configuration::platform& config) -> void;
-        auto release()  const                            -> void;
+        auto    init(const configuration::platform& config) -> void;
+        auto release()     const                            -> void;
 
         [[nodiscard]] auto window()  const -> base::Window&;
         [[nodiscard]] auto events()  const -> base::WindowEvents&;

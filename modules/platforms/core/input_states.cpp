@@ -24,12 +24,12 @@ namespace core
         _changes.clear();
     }
 
-    auto InputStates::update(int32_t key, const bool state) -> void
+    auto InputStates::update(int32_t item, const bool state) -> void
     {
         #pragma region references
 
-        auto& previous = _previous[key];
-        auto&  current =  _current[key];
+        auto& previous = _previous[item];
+        auto&  current =  _current[item];
 
         #pragma endregion
 
@@ -38,15 +38,15 @@ namespace core
 
         if (current && !previous)
         {
-            if (std::ranges::find(_changes, key) == _changes.end())
+            if (std::ranges::find(_changes, item) == _changes.end())
             {
-                _changes.emplace_back(key);
+                _changes.emplace_back(item);
             }
         }
     }
 
-    auto InputStates::pressed(const int32_t key) -> bool
+    auto InputStates::pressed(const int32_t item) -> bool
     {
-        return _current[key];
+        return _current[item];
     }
 }

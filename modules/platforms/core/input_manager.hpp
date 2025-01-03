@@ -10,17 +10,25 @@ namespace core
     class InputManager
     {
     public:
-        auto init()                                  -> void;
+        auto   init()                                -> void;
         auto update(int32_t item,  bool state) const -> void;
+
+        #pragma region events
 
         auto scroll(int32_t delta) const -> void;
 
-        [[nodiscard]]  auto input()  const -> base::Input&;
+        #pragma endregion
 
-        [[nodiscard]]  auto states() const -> InputStates&;
-        [[nodiscard]]  auto mouse()  const -> InputMouse&;
+        #pragma region getters
 
-        static auto instance() -> InputManager&;
+        [[nodiscard]] auto input()  const -> base::Input&;
+
+        [[nodiscard]] auto states() const -> InputStates&;
+        [[nodiscard]] auto  mouse() const -> InputMouse&;
+
+        static  auto  instance() -> InputManager&;
+
+        #pragma endregion
 
     private:
         std::unique_ptr<base::Input> _input;
