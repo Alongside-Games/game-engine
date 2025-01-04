@@ -39,6 +39,7 @@ namespace windows
         }
 
         #pragma endregion
+
         #pragma region context
 
         const int32_t context_attributes[]
