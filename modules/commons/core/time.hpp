@@ -25,7 +25,7 @@ namespace core
         inline static float _total_time { };
         inline static float _delta_time { };
 
-        time_point   _start_time { };
-        time_point _current_time { };
+        time_point   start_time { };
+        time_point current_time { };
     };
 }

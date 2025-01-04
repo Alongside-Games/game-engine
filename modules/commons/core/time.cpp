@@ -4,18 +4,18 @@ namespace core
 {
     auto Time::init() -> void
     {
-           _start_time =    now_time();
-         _current_time = _start_time;
+           start_time =   now_time();
+         current_time = start_time;
     }
 
     auto Time::update() -> void
     {
-         const auto current_time = now_time();
+         const auto current = now_time();
 
-        _total_time = seconds(current_time -   _start_time).count();
-        _delta_time = seconds(current_time - _current_time).count();
+        _total_time = seconds(current -   start_time).count();
+        _delta_time = seconds(current - current_time).count();
 
-      _current_time = current_time;
+       current_time = current;
     }
 
     auto Time::total_time() -> float
