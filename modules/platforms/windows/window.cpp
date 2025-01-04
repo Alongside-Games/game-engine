@@ -22,6 +22,7 @@ namespace windows
         auto frame_h = monitor_info.rcMonitor.bottom - monitor_info.rcMonitor.top;
 
         #pragma endregion
+
         #pragma region instance and id
 
         const auto instance = GetModuleHandle(nullptr);
@@ -39,9 +40,11 @@ namespace windows
         id = RegisterClassEx(&classex);
 
         #pragma endregion
+
         #pragma region position and size
 
   style |=  config.flag & core::window_mode ? WS_OVERLAPPEDWINDOW : WS_POPUP;
+
         if (config.flag & core::window_mode)
         {
             RECT window_frame
