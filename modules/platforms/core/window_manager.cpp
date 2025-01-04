@@ -21,6 +21,22 @@ namespace core
          _window->release();
     }
 
+    auto WindowManager::resize(const int32_t width, const int32_t height) const -> void
+    {
+        if (_events->on_size)
+        {
+            _events->on_size(width, height);
+        }
+    }
+
+    auto WindowManager::close() const -> void
+    {
+        if (_events->on_close)
+        {
+            _events->on_close();
+        }
+    }
+
     auto WindowManager::window() const -> base::Window&
     {
         return *_window;

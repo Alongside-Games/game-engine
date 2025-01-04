@@ -5,19 +5,18 @@ namespace core
 {
     auto InputStates::update() -> void
     {
-        #pragma region references
-
-        auto& actions = InputManager::instance().input().actions;
-
-        #pragma endregion
-
-        if (_changes.empty()) return;
+        if (_changes.empty())
+        {
+            return;
+        }
+                const auto& input = InputManager::instance().input();
 
         for (auto change : _changes)
         {
-            if (actions.contains(change))
+            if (const auto  it  = input.actions.find(change);
+                            it != input.actions.end())
             {
-                actions[change]();
+                it->second();
             }
         }
 
@@ -33,15 +32,11 @@ namespace core
 
         #pragma endregion
 
-            previous = current;
-             current = state;
+                        previous  = std::exchange(current, state);
 
-        if (current && !previous)
+        if (current && !previous && std::ranges::find(_changes, item) == _changes.end())
         {
-            if (std::ranges::find(_changes, item) == _changes.end())
-            {
-                _changes.emplace_back(item);
-            }
+            _changes.emplace_back(item);
         }
     }
 

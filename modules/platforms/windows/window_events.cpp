@@ -9,16 +9,19 @@ namespace windows
     {
         #pragma region references
 
-        const auto& events = core::WindowManager::instance().events();
-        const auto&  input = core::InputManager::instance();
+        const auto& window = core::WindowManager::instance();
+        const auto&  input = core::InputManager ::instance();
 
         #pragma endregion
 
         switch (msg)
         {
+            #pragma region window
+
             case WM_CLOSE:
             {
-                events.on_close();
+                window.close();
+
                 return 0;
             }
             case WM_SIZE:
@@ -26,24 +29,32 @@ namespace windows
                 const auto width  = LOWORD(lparam);
                 const auto height = HIWORD(lparam);
 
-                if (events.on_size)
-                    events.on_size(width, height);
+                window.resize(width, height);
 
                 return 0;
             }
+
+            #pragma endregion
+
+            #pragma region keyboard
+
             case WM_KEYUP:
             case WM_KEYDOWN:
 
             case WM_SYSKEYUP:
             case WM_SYSKEYDOWN:
             {
-                const auto key   =        wparam;
-                const auto state = HIWORD(lparam) & KF_UP ? false : true;
+                const auto key   = static_cast<int32_t>(wparam);
+                const auto state =               HIWORD(lparam) & KF_UP ? false : true;
 
                 input.update(key, state);
 
                 break;
             }
+
+            #pragma endregion
+
+            #pragma region mouse
 
             case WM_LBUTTONUP:   { input.update(VK_LBUTTON, false); break; }
             case WM_MBUTTONUP:   { input.update(VK_MBUTTON, false); break; }
@@ -55,18 +66,25 @@ namespace windows
 
             case WM_MOUSEWHEEL:
             {
-                const auto delta = GET_WHEEL_DELTA_WPARAM(wparam) / WHEEL_DELTA;
+                  const auto delta = GET_WHEEL_DELTA_WPARAM(wparam) / WHEEL_DELTA;
 
                 input.scroll(delta);
+
+                break;
             }
 
             case WM_MOUSEMOVE:
             {
                 input.mouse().cursor_x = LOWORD(lparam);
                 input.mouse().cursor_y = HIWORD(lparam);
+
+                break;
             }
 
+            #pragma endregion
+
             #pragma region default
+
             case WM_ERASEBKGND:
             {
                 return 1;
@@ -85,7 +103,8 @@ namespace windows
                 break;
             }
             default: break;
-            #pragma  endregion
+
+            #pragma endregion
         }
 
         return DefWindowProc(hwnd, msg, wparam, lparam);

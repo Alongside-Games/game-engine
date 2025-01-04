@@ -10,8 +10,8 @@ namespace core
     class InputManager
     {
     public:
-        auto   init()                                -> void;
-        auto update(int32_t item,  bool state) const -> void;
+        auto   init()                               -> void;
+        auto update(int32_t item, bool state) const -> void;
 
         #pragma region events
 
@@ -21,7 +21,7 @@ namespace core
 
         #pragma region getters
 
-        [[nodiscard]] auto input()  const -> base::Input&;
+        [[nodiscard]] auto  input() const -> base::Input&;
 
         [[nodiscard]] auto states() const -> InputStates&;
         [[nodiscard]] auto  mouse() const -> InputMouse&;
