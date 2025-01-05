@@ -8,7 +8,7 @@ namespace opengl
     using GLsizei    =  int32_t;
     using GLbitfield = uint32_t;
 
-    using GLfloat    = float;
+    using GLfloat    =  float;
 
     #pragma endregion
 
